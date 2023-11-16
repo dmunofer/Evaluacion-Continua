@@ -2,7 +2,7 @@ class PizzaDeliziosoBuilder(PizzaBuilder):
     def __init__(self):
         self.pizza = Pizza()
 
-    def build_tipo_masa(self)
+    def build_tipo_masa(self):
         self.pizza.tipo_masa = "Masa delgada premium"
 
     def build_salsa(self):
