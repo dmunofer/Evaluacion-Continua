@@ -11,7 +11,7 @@ def mostrar_detalles_pizza(pizza):
     print(f"Presentación: {pizza.presentacion}")
     print(f"Maridaje recomendado: {pizza.maridaje_recomendado}")
 
-def main()
+def main():
     # Uso del patrón Builder con validación de elecciones
     builder_delizioso = PizzaDeliziosoBuilder()
     director = PizzaDirector(builder_delizioso)
