@@ -1,5 +1,6 @@
 # CSV Manager
 import csv
+from pizza import Pizza
 class CSVManager:
     @staticmethod
     def save_to_csv(pizza: Pizza):
