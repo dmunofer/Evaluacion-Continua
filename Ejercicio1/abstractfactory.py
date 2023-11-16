@@ -11,7 +11,7 @@ class AnalysisFactory(ABC):
     def create_mean(self) -> AbstractMean:
         pass
 
-class ConcreteFactory_HourRequested(AnalysisFactory)
+class ConcreteFactory_HourRequested(AnalysisFactory):
     def __init__(self, data):
         self.data = data
 
