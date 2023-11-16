@@ -1,24 +1,21 @@
 from pizza import Pizza
 class PizzaBuilder:
-    def build_dough(self):
+    def build_tipo_masa(self):
         pass
 
-    def build_sauce(self):
+    def build_salsa(self):
         pass
 
-    def build_toppings(self):
+    def build_ingredientes_principales(self):
         pass
 
-    def build_cooking_technique(self):
+    def build_tecnicas_coccion(self):
         pass
 
-    def build_presentation(self):
+    def build_presentacion(self):
         pass
 
-    def build_pairing(self):
-        pass
-
-    def build_extras(self):
+    def build_maridaje_recomendado(self):
         pass
 
     def get_pizza(self) -> Pizza:
