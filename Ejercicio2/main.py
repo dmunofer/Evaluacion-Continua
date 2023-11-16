@@ -2,7 +2,7 @@ from pizzadeliziosa import PizzaDeliziosoBuilder
 from director import PizzaDirector
 from CSVManager import CSVManager
 
-def mostrar_detalles_pizza(pizza)
+def mostrar_detalles_pizza(pizza):
     print("Detalles de la pizza personalizada:")
     print(f"Tipo de masa: {pizza.tipo_masa}")
     print(f"Salsa: {pizza.salsa}")
