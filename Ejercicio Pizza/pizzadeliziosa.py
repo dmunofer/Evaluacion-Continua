@@ -1,29 +1,13 @@
 from pizzabuilder import PizzaBuilder
 from pizza import Pizza
+from composite import MenuItem
+
 class PizzaDeliziosoBuilder(PizzaBuilder):
     def __init__(self):
         self.pizza = Pizza()
+        self.menu_item = MenuItem("Pizza Delizioso", 10.99)  # Precio base de la pizza
 
-    def build_tipo_masa(self):
-        self.pizza.tipo_masa = "Masa delgada premium"
+    # Métodos de construcción de pizza existentes
 
-    def build_salsa(self):
-        self.pizza.salsa = "Salsa de autor"
-
-    def build_ingredientes_principales(self):
-        self.pizza.ingredientes_principales = ["Tomate", "Mozzarella", "Prosciutto"]
-
-    def build_tecnicas_coccion(self):
-        self.pizza.tecnicas_coccion = "Horno tradicional"
-
-    def build_presentacion(self):
-        self.pizza.presentacion = "Estilo clásico"
-
-    def build_maridaje_recomendado(self):
-        if "Prosciutto" in self.pizza.ingredientes_principales:
-            self.pizza.maridaje_recomendado = "Vino tinto"
-        else:
-            self.pizza.maridaje_recomendado = "Maridaje genérico"
-
-    def get_pizza(self):
-        return self.pizza
+    def build_menu_item(self) -> MenuItem:
+        return self.menu_item
