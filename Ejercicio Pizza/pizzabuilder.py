@@ -1,4 +1,6 @@
 from pizza import Pizza
+from composite import MenuItem
+
 class PizzaBuilder:
     def build_tipo_masa(self):
         pass
@@ -19,4 +21,7 @@ class PizzaBuilder:
         pass
 
     def get_pizza(self) -> Pizza:
+        pass
+
+    def build_menu_item(self) -> MenuItem:
         pass
