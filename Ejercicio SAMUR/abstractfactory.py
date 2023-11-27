@@ -1,147 +1,107 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from typing import List, Union
 import pandas as pd
 
+#Componente base del Composite
+class DocumentComponent(ABC):
+    @abstractmethod
+    def get_size(self) -> int:
+        pass
+
+    @abstractmethod
+    def display(self) -> None:
+        pass
+
+#Documento concreto del Composite
+class Document(DocumentComponent):
+    def __init__(self, name: str, doc_type: str, size: int):
+        self.name = name
+        self.doc_type = doc_type
+        self.size = size
+
+    def get_size(self) -> int:
+        return self.size
+
+    def display(self) -> None:
+        print(f"Document: {self.name}.{self.doc_type}, Size: {self.size} KB")
+
+#Enlace concreto del Composite
+class Link(DocumentComponent):
+    def __init__(self, name: str, target: Union[Document, Folder]):
+        self.name = name
+        self.target = target
+
+    def get_size(self) -> int:
+        # El tamaño del enlace es simbólico
+        return 1
+
+    def display(self) -> None:
+        print(f"Link: {self.name} -> {self.target.name}")
+
+#Carpeta concreta del Composite
+class Folder(DocumentComponent):
+    def __init__(self, name: str):
+        self.name = name
+        self.children: List[DocumentComponent] = []
+
+    def get_size(self) -> int:
+        return sum(child.get_size() for child in self.children)
+
+    def display(self) -> None:
+        print(f"Folder: {self.name}, Size: {self.get_size()} KB")
+        for child in self.children:
+            child.display()
+
+    def add(self, component: DocumentComponent) -> None:
+        self.children.append(component)
+
+    def remove(self, component: DocumentComponent) -> None:
+        self.children.remove(component)
+
+    def get_children(self) -> List[DocumentComponent]:
+        return self.children
+
+#Proxy concreto para el acceso a documentos
+class DocumentProxy(DocumentComponent):
+    def __init__(self, document: Document, access_log: List[str], user: str):
+        self.document = document
+        self.access_log = access_log
+        self.user = user
+
+    def get_size(self) -> int:
+        return self.document.get_size()
+
+    def display(self) -> None:
+        print(f"Proxy Document: {self.document.name}.{self.document.doc_type}, Size: {self.get_size()} KB")
+
+    def access_document(self) -> None:
+        self.access_log.append(f"{self.user} accessed {self.document.name}.{self.document.doc_type}")
+
+#Fábrica abstracta para análisis de datos
 class AnalysisFactory(ABC):
     @abstractmethod
-    def create_mode(self) -> AbstractMode:
+    def create_statistical_analysis(self, data) -> DocumentComponent:
         pass
 
     @abstractmethod
-    def create_mean(self) -> AbstractMean:
+    def create_visualization(self, data) -> DocumentComponent:
         pass
 
-class ConcreteFactory_HourRequested(AnalysisFactory):
-    def __init__(self, data):
-        self.data = data
+# Fábrica concreta para análisis estadístico
+class StatisticalAnalysisFactory(AnalysisFactory):
+    def create_statistical_analysis(self, data) -> DocumentComponent:
+        return Document(f"Statistical Analysis", "txt", 10)
 
-    def create_mode(self) -> AbstractMode:
-        return ConcreteMode_HourRequested(self.data)
+    def create_visualization(self, data) -> DocumentComponent:
+        return Link("Statistical Visualization", Folder("Visualizations"))
 
-    def create_mean(self) -> AbstractMean:
-        return ConcreteMean_HourRequested(self.data)
+# Fábrica concreta para visualizaciones gráficas
+class VisualizationFactory(AnalysisFactory):
+    def create_statistical_analysis(self, data) -> DocumentComponent:
+        return Link("Graphical Analysis", Folder("Analyses"))
 
-class ConcreteFactory_Month(AnalysisFactory):
-    def __init__(self, data):
-        self.data = data
+    def create_visualization(self, data) -> DocumentComponent:
+        return Document(f"Graphical Visualization", "png", 200)
 
-    def create_mode(self) -> AbstractMode:
-        return ConcreteMode_Month(self.data)
 
-    def create_mean(self) -> AbstractMean:
-        return ConcreteMean_Month(self.data)
-
-class ConcreteFactory_HourIntervention(AnalysisFactory):
-    def __init__(self, data):
-        self.data = data
-
-    def create_mean(self) -> AbstractMode:
-        return ConcreteMode_HourIntervention(self.data)
-
-    def create_mode(self) -> AbstractMean:
-        return ConcreteMean_HourIntervention(self.data)
-
-class AbstractMode(ABC):
-    @abstractmethod
-    def calculate(self):
-        pass
-
-class ConcreteMode_HourRequested(AbstractMode):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Hour Requested'].mode()
-
-class ConcreteMode_Month(AbstractMode):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Month'].mode()
-
-class ConcreteMode_HourIntervention(AbstractMode):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Hour Intervention'].mode()
-
-class AbstractMean(ABC):
-    @abstractmethod
-    def calculate(self):
-        pass
-
-class ConcreteMean_HourRequested(AbstractMean):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Hour Requested'].mean()
-
-class ConcreteMean_Month(AbstractMean):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Month'].mean()
-
-class ConcreteMean_HourIntervention(AbstractMean):
-    def __init__(self, data):
-        self.data = data
-
-    def calculate(self):
-        return self.data['Hour Intervention'].mean()
-
-def client_code_mode(factory: AnalysisFactory) -> None:
-    mode_calculator = factory.create_mode()
-    print(f'Mode: {mode_calculator.calculate()}')
-
-def client_code_mean(factory: AnalysisFactory) -> None:
-    mean_calculator = factory.create_mean()
-    print(f'Mean: {mean_calculator.calculate()}')
-
-if __name__ == "__main__":
-    data = pd.read_csv('Ejercicio1/activaciones_samur_2022.csv', delimiter=";")
-    data = data.dropna()
-
-    months_to_numbers = {
-        'ENERO': 1,
-        'FEBRERO': 2,
-        'MARZO': 3,
-        'ABRIL': 4,
-        'MAYO': 5,
-        'JUNIO': 6,
-        'JULIO': 7,
-        'AGOSTO': 8,
-        'SEPTIEMBRE': 9,
-        'OCTUBRE': 10,
-        'NOVIEMBRE': 11,
-        'DICIEMBRE': 12
-    }
-
-    data['Month'] = data['Month'].map(months_to_numbers)
-
-    # Simplificación de la conversión de horas
-    time_columns = ['Hour Requested', 'Hour Intervention']
-    for col in time_columns:
-        data[col] = pd.to_datetime(data[col], format='%H:%M:%S').dt.hour * 60 + pd.to_datetime(data[col], format='%H:%M:%S').dt.minute
-
-    # Eliminar la columna 'Year'
-    data.drop('Year', axis=1, inplace=True)
-
-    factory_hour_requested = ConcreteFactory_HourRequested(data)
-    factory_hour_intervention = ConcreteFactory_HourIntervention(data)
-    factory_month = ConcreteFactory_Month(data)
-
-    print("Hour Requested:")
-    client_code_mode(factory_hour_requested)
-    client_code_mean(factory_hour_requested)
-
-    print("Month:")
-    client_code_mode(factory_month)
-    client_code_mean(factory_month)
-
-    print("Hour Intervention:")
-    client_code_mode(factory_hour_intervention)
-    client_code_mean(factory_hour_intervention)
