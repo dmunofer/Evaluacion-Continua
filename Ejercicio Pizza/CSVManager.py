@@ -1,22 +1,22 @@
 # CSV Manager
 import csv
 from pizza import Pizza
+from composite import *
+
 class CSVManager:
     @staticmethod
-    def save_to_csv(pizza: Pizza):
-        with open('pizzas.csv', 'a', newline='') as csvfile:
+    def save_to_csv(menu_component: MenuComponent):
+        with open('menus.csv', 'a', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
-            details = [(category, choice) for category, choice in pizza.details.items()]
+            details = [(item.name, item.get_price()) for item in menu_component.menu_items]
             csv_writer.writerows(details)
 
     @staticmethod
     def read_from_csv():
-        pizzas = []
-        with open('pizzas.csv', newline='') as csvfile:
+        menu_items = []
+        with open('menus.csv', newline='') as csvfile:
             csv_reader = csv.reader(csvfile)
             for row in csv_reader:
-                pizza = Pizza()
-                for i in range(0, len(row), 2):
-                    pizza.add_detail(row[i], row[i + 1])
-                pizzas.append(pizza)
-        return pizzas
+                menu_item = MenuItem(row[0], float(row[1]))
+                menu_items.append(menu_item)
+        return menu_items
