@@ -2,7 +2,7 @@ from abstractfactory import *
 def main():
     try:
         # Acceder y leer el archivo CSV
-        data = pd.read_csv('Ejercicio1/activaciones_samur_2022.csv', delimiter=";")
+        data = pd.read_csv('Ejercicio SAMUR/activaciones_samur_2022.csv', delimiter=";")
 
         # Crear una carpeta que contendrá los documentos generados
         root_folder = Folder("Analysis Results")
