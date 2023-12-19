@@ -48,7 +48,7 @@ def main():
 
     # Configurar la cadena de autorización
     manejador_tecnico = Tecnico()
-    manejador_supervisor = Supervisor(siguiente=manejador_tecnico)
+    manejador_supervisor = Supervisor(siguiente=manejador_tecnico
 
     # Asignar roles a los usuarios
     usuario_tecnico = Usuario(nombre="Técnico1", rol="Técnico")
