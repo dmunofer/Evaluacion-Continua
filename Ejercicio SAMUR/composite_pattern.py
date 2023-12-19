@@ -24,7 +24,7 @@ class Enlace(Componente):
     def mostrar(self):
         print(f"Enlace: {self.nombre}, Destino: {self.destino}")
 
-class Carpeta(Componente):
+class Carpeta(Componente)
     def __init__(self, nombre):
         self.nombre = nombre
         self.contenidos: List[Componente] = []
