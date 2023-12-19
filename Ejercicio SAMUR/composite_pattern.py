@@ -35,4 +35,4 @@ class Carpeta(Componente):
     def mostrar(self):
         print(f"Carpeta: {self.nombre}")
         for componente in self.contenidos:
-            componente.mostrar(
+            componente.mostrar()
