@@ -55,7 +55,7 @@ def main():
     usuario_supervisor = Usuario(nombre="Supervisor1", rol="Supervisor")
 
     # Autorizar acceso a un documento
-    manejador_supervisor.autorizar(usuario_tecnico, doc1)
+    manejador_supervisor.autorizar(usuario_tecnico, doc1
     manejador_supervisor.autorizar(usuario_supervisor, doc1)
 
     # Cambiar el estado del documento
