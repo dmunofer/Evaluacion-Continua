@@ -11,7 +11,7 @@ class Documento(Componente):
     def __init__(self, nombre, tipo, tamano):
         self.nombre = nombre
         self.tipo = tipo
-        self.tamano = taman
+        self.tamano = tamano
 
     def mostrar(self):
         print(f"Documento: {self.nombre}, Tipo: {self.tipo}, Tamaño: {self.tamano} KB")
