@@ -44,7 +44,7 @@ def main():
     if usuario_proxy.solicitar_acceso(doc1):
         doc1.mostrar()
     else:
-        print("Acceso denegado.")
+        print("Acceso denegado."
 
     # Configurar la cadena de autorización
     manejador_tecnico = Tecnico()
