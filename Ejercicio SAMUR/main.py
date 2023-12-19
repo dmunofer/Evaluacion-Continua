@@ -1,4 +1,9 @@
 from abstractfactory import *
+from composite_pattern import Documento, Enlace, Carpeta
+from proxy_pattern import ProxyAcceso
+from chain_of_responsibility_pattern import Tecnico, Supervisor
+from state_pattern import EstadoPendienteAprobacion, EstadoAprobado
+from usuario import *
 def main():
     try:
         # Acceder y leer el archivo CSV
