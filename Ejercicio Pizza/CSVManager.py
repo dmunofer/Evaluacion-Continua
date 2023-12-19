@@ -1,6 +1,6 @@
 # CSV Manager
 import csv
-from pizza import Pizz
+from pizza import Pizza
 from composite import *
 
 class CSVManager:
